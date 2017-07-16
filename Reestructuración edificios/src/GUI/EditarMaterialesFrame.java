@@ -80,7 +80,8 @@ public class EditarMaterialesFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				int cod = Integer.parseInt(codTextField.getText()); 
 				Material m1;
-				if ((m1=Archivo.buscar("materiales", cod)) == null) {
+				Archivo arch = new Archivo();
+				if ((m1=arch.buscarMaterial(cod)) == null) {
 					JOptionPane.showMessageDialog(null, "El material no existe", "No se ha encontrado",
 							JOptionPane.INFORMATION_MESSAGE);
 					codTextField.requestFocus();
@@ -107,8 +108,9 @@ public class EditarMaterialesFrame extends JFrame {
 		JButton btnActualizar = new JButton("Actualizar");
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Archivo arch = new Archivo();
 				try {
-					Archivo.actualizar("materiales", Integer.parseInt(codTextField.getText()), descTextField.getText());
+					arch.actualizarMaterial(Integer.parseInt(codTextField.getText()), descTextField.getText());
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(), "Error",
 							JOptionPane.ERROR_MESSAGE);

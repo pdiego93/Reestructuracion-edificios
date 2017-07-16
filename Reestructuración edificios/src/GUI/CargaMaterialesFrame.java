@@ -95,6 +95,7 @@ public class CargaMaterialesFrame extends JFrame {
 		JButton btnAceptar = new JButton("Guardar");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Archivo arch = new Archivo();
 				if(descTextField.getText().equals("") || codTextField.getText().equals(""))
 					JOptionPane.showMessageDialog(null, "¡No puede haber campos vacíos!", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -102,13 +103,17 @@ public class CargaMaterialesFrame extends JFrame {
 				int cod = Integer.parseInt(codTextField.getText());
 				String desc = descTextField.getText();
 				
-				if (Archivo.buscar("materiales", cod) == null) {
-					Archivo.escribir("materiales", cod + "|" + desc);
-					JOptionPane.showMessageDialog(null, "El material ha sido registrado", "Guardado exitoso",
-							JOptionPane.INFORMATION_MESSAGE);
-					codTextField.setText("");
-					descTextField.setText("");
-					codTextField.requestFocus();
+				if (arch.buscarMaterial(cod) == null) {
+					try {
+						arch.escribirMaterial(cod + "|" + desc);
+						JOptionPane.showMessageDialog(null, "El material ha sido registrado", "Guardado exitoso",
+								JOptionPane.INFORMATION_MESSAGE);
+						codTextField.setText("");
+						descTextField.setText("");
+						codTextField.requestFocus();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}	
 				}
 				else
 					JOptionPane.showMessageDialog(null, "El código de material ya existe", "Error",
