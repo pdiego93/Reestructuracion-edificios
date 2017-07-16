@@ -132,5 +132,4 @@ public class EditarMaterialesFrame extends JFrame {
 		btnCancelar.setBounds(451, 87, 89, 23);
 		contentPane.add(btnCancelar);
 	}
-
 }

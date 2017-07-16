@@ -25,7 +25,6 @@ public class NivelesAbonadosFrame extends JFrame {
 	private JTextField mtsRg11;
 	private JTextField rtTextFd;
 	
-	
 	/**
 	 * Launch the application.
 	 */

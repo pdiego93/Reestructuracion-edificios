@@ -7,5 +7,4 @@ public class Main {
 		Archivo.escribir("materiales", "hola" + System.lineSeparator());
 		System.out.println("listo");
 	}
-
 }

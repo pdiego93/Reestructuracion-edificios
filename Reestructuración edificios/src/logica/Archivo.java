@@ -31,7 +31,6 @@ public class Archivo {
 		
 	}
 	
-	
 	/***Lectura de archivo***/
 	public static Material buscar(String ruta, int cod) {
 			
