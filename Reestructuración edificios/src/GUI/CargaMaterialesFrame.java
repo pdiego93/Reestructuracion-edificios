@@ -115,9 +115,9 @@ public class CargaMaterialesFrame extends JFrame {
 							JOptionPane.ERROR_MESSAGE);
 				}
 			}
+			
 		});
 		btnAceptar.setBounds(152, 92, 89, 23);
 		contentPane.add(btnAceptar);
-
 	}
 }
