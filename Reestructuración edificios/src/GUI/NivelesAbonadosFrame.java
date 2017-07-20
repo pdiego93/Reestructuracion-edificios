@@ -30,9 +30,9 @@ public class NivelesAbonadosFrame extends JFrame {
 	private JTextField dirHTextFd;
 	private JTextField cantPisosTextField;
 	private JTextField cantDptosPisoTxtField;
-	private JTextField cantCuerposTxtFd;
+	private JTextField cantCuerposPorRamaTxtFd;
 	private JTextField tapsxCuerpoTxtFd;
-	private JTextField mtsRg11;
+	private JTextField cantRamasTxtFd;
 	private JTextField rtTextFd;
 	private JTable dataTable;
 	
@@ -80,11 +80,13 @@ public class NivelesAbonadosFrame extends JFrame {
 		contentPane.add(lblDirH);
 		
 		dirLTextFd = new JTextField();
+		dirLTextFd.setFont(new Font("Calibri", Font.PLAIN, 14));
 		dirLTextFd.setBounds(124, 33, 50, 20);
 		contentPane.add(dirLTextFd);
 		dirLTextFd.setColumns(10);
 		
 		dirHTextFd = new JTextField();
+		dirHTextFd.setFont(new Font("Calibri", Font.PLAIN, 14));
 		dirHTextFd.setBounds(124, 58, 50, 20);
 		contentPane.add(dirHTextFd);
 		dirHTextFd.setColumns(10);
@@ -100,11 +102,13 @@ public class NivelesAbonadosFrame extends JFrame {
 		contentPane.add(lblCantidadPisos);
 		
 		cantPisosTextField = new JTextField();
+		cantPisosTextField.setFont(new Font("Calibri", Font.PLAIN, 14));
 		cantPisosTextField.setBounds(420, 33, 50, 20);
 		contentPane.add(cantPisosTextField);
 		cantPisosTextField.setColumns(10);
 		
 		cantDptosPisoTxtField = new JTextField();
+		cantDptosPisoTxtField.setFont(new Font("Calibri", Font.PLAIN, 14));
 		cantDptosPisoTxtField.setBounds(420, 58, 50, 20);
 		contentPane.add(cantDptosPisoTxtField);
 		cantDptosPisoTxtField.setColumns(10);
@@ -115,33 +119,37 @@ public class NivelesAbonadosFrame extends JFrame {
 		lblDptosPorPiso.setBounds(265, 61, 148, 14);
 		contentPane.add(lblDptosPorPiso);
 		
-		JLabel lblCantCuerpos = new JLabel("Cant. Cuerpos:");
+		JLabel lblCantCuerpos = new JLabel("Cant. Cuerpos por rama:");
 		lblCantCuerpos.setFont(new Font("Calibri", Font.PLAIN, 14));
-		lblCantCuerpos.setBounds(265, 86, 95, 14);
+		lblCantCuerpos.setBounds(265, 86, 148, 14);
 		contentPane.add(lblCantCuerpos);
 		
-		cantCuerposTxtFd = new JTextField();
-		cantCuerposTxtFd.setBounds(420, 83, 50, 20);
-		contentPane.add(cantCuerposTxtFd);
-		cantCuerposTxtFd.setColumns(10);
+		cantCuerposPorRamaTxtFd = new JTextField();
+		cantCuerposPorRamaTxtFd.setFont(new Font("Calibri", Font.PLAIN, 14));
+		cantCuerposPorRamaTxtFd.setBounds(420, 83, 50, 20);
+		contentPane.add(cantCuerposPorRamaTxtFd);
+		cantCuerposPorRamaTxtFd.setColumns(10);
 		
 		JLabel lblTapsxCuerpo = new JLabel("Cant. Taps por Cuerpo:");
-		lblTapsxCuerpo.setBounds(10, 186, 158, 14);
+		lblTapsxCuerpo.setFont(new Font("Calibri", Font.PLAIN, 14));
+		lblTapsxCuerpo.setBounds(124, 156, 158, 14);
 		contentPane.add(lblTapsxCuerpo);
 		
 		tapsxCuerpoTxtFd = new JTextField();
+		tapsxCuerpoTxtFd.setFont(new Font("Calibri", Font.PLAIN, 14));
 		tapsxCuerpoTxtFd.setEditable(false);
-		tapsxCuerpoTxtFd.setBounds(168, 183, 50, 20);
+		tapsxCuerpoTxtFd.setBounds(265, 153, 50, 20);
 		contentPane.add(tapsxCuerpoTxtFd);
 		tapsxCuerpoTxtFd.setColumns(10);
 		
 		
-		mtsRg11 = new JTextField();
-		mtsRg11.setBounds(420, 108, 50, 20);
-		contentPane.add(mtsRg11);
-		mtsRg11.setColumns(10);
+		cantRamasTxtFd = new JTextField();
+		cantRamasTxtFd.setFont(new Font("Calibri", Font.PLAIN, 14));
+		cantRamasTxtFd.setBounds(420, 108, 50, 20);
+		contentPane.add(cantRamasTxtFd);
+		cantRamasTxtFd.setColumns(10);
 		
-		JLabel lblMtsRgEntre = new JLabel("Mts. RG11 entre cuerpos:");
+		JLabel lblMtsRgEntre = new JLabel("Cant. Ramas:");
 		lblMtsRgEntre.setFont(new Font("Calibri", Font.PLAIN, 14));
 		lblMtsRgEntre.setBounds(265, 111, 158, 14);
 		contentPane.add(lblMtsRgEntre);
@@ -152,27 +160,48 @@ public class NivelesAbonadosFrame extends JFrame {
 		contentPane.add(lblRetorno);
 		
 		rtTextFd = new JTextField();
+		rtTextFd.setFont(new Font("Calibri", Font.PLAIN, 14));
 		rtTextFd.setBounds(124, 83, 50, 20);
 		contentPane.add(rtTextFd);
 		rtTextFd.setColumns(10);
 		
 		
 		JButton btnGenerar = new JButton("Generar");
+		btnGenerar.setFont(new Font("Calibri", Font.PLAIN, 14));
 		btnGenerar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String [] columnas = {"Objeto", "Descripción", "Abonados"};
-				Object [][] data = {{"Tap", "26x8", "1A,1C,2A"},
-									{"Tap", "26x8", "3A,4C"}};
+				int cantCuerposPorRama = Integer.parseInt(cantCuerposPorRamaTxtFd.getText());
+				int cantRamas = Integer.parseInt(cantRamasTxtFd.getText());
+				
+				int cantRg11 = cantCuerposPorRama-cantRamas + cantRamas-1;
+									
+				String [] columnas = {"", "Cable", "Metros"};
+				
+				Object [][] data = new Object[cantCuerposPorRama*cantRamas-1][3];
+	
+				/*for (int i = 0; i < cantRamas; i++) {
+					for (int j = 0; j < cantCuerposPorRama; j++){
+						data[i*cantCuerposPorRama+j][0] = new Integer(i*cantCuerposPorRama+(j+1));
+						data[i*cantCuerposPorRama+j][1] = new String("RG11 R" + (i+1) + " C" + (j+1));
+						data[i*cantCuerposPorRama+j][2] = new Integer(0);
+					}
+							
+				}*/
+				
+				for (int i = 0; i < data.length; i++) {
+					System.out.println(i);
+				}
 				
 				dataTable = new JTable(data, columnas);
 				dataTable.setFont(new Font("Calibri", Font.PLAIN, 14));
+				dataTable.getColumn("").setMaxWidth(25);
 				dataTable.setCellSelectionEnabled(true);
 				dataTable.setColumnSelectionAllowed(true);
-				dataTable.setBounds(10, 223, 500, 170);
+				dataTable.setBounds(10, 180, 500, 100);
 				contentPane.add(dataTable);
 				
 				JScrollPane scrollPane = new JScrollPane(dataTable);
-			    scrollPane.setBounds(10, 223, 500, 170);
+			    scrollPane.setBounds(10, 180, 500, 100);
 			    contentPane.add(scrollPane);
 				contentPane.repaint();
 			}
