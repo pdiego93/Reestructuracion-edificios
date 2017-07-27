@@ -22,6 +22,7 @@ import java.awt.Color;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JTable;
+import javax.swing.JCheckBox;
 
 public class NivelesAbonadosFrame extends JFrame {
 
@@ -173,35 +174,39 @@ public class NivelesAbonadosFrame extends JFrame {
 				int cantCuerposPorRama = Integer.parseInt(cantCuerposPorRamaTxtFd.getText());
 				int cantRamas = Integer.parseInt(cantRamasTxtFd.getText());
 				
+				int cantPisos = Integer.parseInt(cantPisosTextField.getText());
+				int cantDptosPiso = Integer.parseInt(cantDptosPisoTxtField.getText());
+				
 				int cantRg11 = cantCuerposPorRama-cantRamas + cantRamas-1;
 									
-				String [] columnas = {"", "Cable", "Metros"};
+				String [] dptosCols = {"", "Dpto", "Cumplido"};
 				
-				Object [][] data = new Object[cantCuerposPorRama*cantRamas-1][3];
-	
-				/*for (int i = 0; i < cantRamas; i++) {
-					for (int j = 0; j < cantCuerposPorRama; j++){
-						data[i*cantCuerposPorRama+j][0] = new Integer(i*cantCuerposPorRama+(j+1));
-						data[i*cantCuerposPorRama+j][1] = new String("RG11 R" + (i+1) + " C" + (j+1));
-						data[i*cantCuerposPorRama+j][2] = new Integer(0);
-					}
-							
-				}*/
+				Object [][] dptos = new Object[cantPisos*cantDptosPiso][3];
 				
-				for (int i = 0; i < data.length; i++) {
+				String [] cableCols = {"", "Cable", "Metros"};
+				
+				Object [][] cables = new Object[cantCuerposPorRama*cantRamas-1][3];
+				
+				
+				
+				
+				for (int i = 0; i < dptos.length; i++) {
 					System.out.println(i);
+					dptos[i][0] = new Integer(i+1);
+					dptos[i][2] = new Boolean(false);
+					
 				}
 				
-				dataTable = new JTable(data, columnas);
+				dataTable = new JTable(dptos, dptosCols);
 				dataTable.setFont(new Font("Calibri", Font.PLAIN, 14));
 				dataTable.getColumn("").setMaxWidth(25);
 				dataTable.setCellSelectionEnabled(true);
 				dataTable.setColumnSelectionAllowed(true);
-				dataTable.setBounds(10, 180, 500, 100);
+				dataTable.setBounds(10, 180, 250, 100);
 				contentPane.add(dataTable);
 				
 				JScrollPane scrollPane = new JScrollPane(dataTable);
-			    scrollPane.setBounds(10, 180, 500, 100);
+			    scrollPane.setBounds(10, 180, 250, 100);
 			    contentPane.add(scrollPane);
 				contentPane.repaint();
 			}
@@ -218,7 +223,7 @@ public class NivelesAbonadosFrame extends JFrame {
 		separator.setBounds(220, 11, 1, 125);
 		contentPane.add(separator);
 		
-	
+		
 		
 		
 	}
