@@ -12,7 +12,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -23,6 +25,9 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+
+import logica.tableModel;
 
 public class NivelesAbonadosFrame extends JFrame {
 
@@ -31,11 +36,12 @@ public class NivelesAbonadosFrame extends JFrame {
 	private JTextField dirHTextFd;
 	private JTextField cantPisosTextField;
 	private JTextField cantDptosPisoTxtField;
-	private JTextField cantCuerposPorRamaTxtFd;
 	private JTextField tapsxCuerpoTxtFd;
-	private JTextField cantRamasTxtFd;
 	private JTextField rtTextFd;
-	private JTable dataTable;
+	private JTable dptosTable;
+	private JTable cables11Table;
+	private JTextField textField;
+	private JTextField cantBajadasTxtFd;
 	
 	/**
 	 * Launch the application.
@@ -52,7 +58,26 @@ public class NivelesAbonadosFrame extends JFrame {
 			}
 		});
 	}
-
+	
+	private boolean areFieldsEmpty() {
+		
+		/*if(dirLTextFd.getText().length()==0)
+			return true;
+		if(dirHTextFd.getText().length()==0)
+			return true;
+		if(rtTextFd.getText().length()==0)
+			return true;*/
+		if(cantPisosTextField.getText().length()==0)
+			return true;
+		if(cantDptosPisoTxtField.getText().length()==0)
+			return true;
+		//if(tapsxCuerpoTxtFd.getText().length()==0)
+			//return true;
+	
+		
+		return false;
+	}
+	
 	/**
 	 * Create the frame.
 	 */
@@ -104,13 +129,13 @@ public class NivelesAbonadosFrame extends JFrame {
 		
 		cantPisosTextField = new JTextField();
 		cantPisosTextField.setFont(new Font("Calibri", Font.PLAIN, 14));
-		cantPisosTextField.setBounds(420, 33, 50, 20);
+		cantPisosTextField.setBounds(457, 33, 50, 20);
 		contentPane.add(cantPisosTextField);
 		cantPisosTextField.setColumns(10);
 		
 		cantDptosPisoTxtField = new JTextField();
 		cantDptosPisoTxtField.setFont(new Font("Calibri", Font.PLAIN, 14));
-		cantDptosPisoTxtField.setBounds(420, 58, 50, 20);
+		cantDptosPisoTxtField.setBounds(457, 58, 50, 20);
 		contentPane.add(cantDptosPisoTxtField);
 		cantDptosPisoTxtField.setColumns(10);
 		
@@ -120,40 +145,17 @@ public class NivelesAbonadosFrame extends JFrame {
 		lblDptosPorPiso.setBounds(265, 61, 148, 14);
 		contentPane.add(lblDptosPorPiso);
 		
-		JLabel lblCantCuerpos = new JLabel("Cant. Cuerpos por rama:");
-		lblCantCuerpos.setFont(new Font("Calibri", Font.PLAIN, 14));
-		lblCantCuerpos.setBounds(265, 86, 148, 14);
-		contentPane.add(lblCantCuerpos);
-		
-		cantCuerposPorRamaTxtFd = new JTextField();
-		cantCuerposPorRamaTxtFd.setFont(new Font("Calibri", Font.PLAIN, 14));
-		cantCuerposPorRamaTxtFd.setBounds(420, 83, 50, 20);
-		contentPane.add(cantCuerposPorRamaTxtFd);
-		cantCuerposPorRamaTxtFd.setColumns(10);
-		
 		JLabel lblTapsxCuerpo = new JLabel("Cant. Taps por Cuerpo:");
 		lblTapsxCuerpo.setFont(new Font("Calibri", Font.PLAIN, 14));
-		lblTapsxCuerpo.setBounds(124, 156, 158, 14);
+		lblTapsxCuerpo.setBounds(124, 153, 158, 14);
 		contentPane.add(lblTapsxCuerpo);
 		
 		tapsxCuerpoTxtFd = new JTextField();
 		tapsxCuerpoTxtFd.setFont(new Font("Calibri", Font.PLAIN, 14));
 		tapsxCuerpoTxtFd.setEditable(false);
-		tapsxCuerpoTxtFd.setBounds(265, 153, 50, 20);
+		tapsxCuerpoTxtFd.setBounds(265, 150, 50, 20);
 		contentPane.add(tapsxCuerpoTxtFd);
 		tapsxCuerpoTxtFd.setColumns(10);
-		
-		
-		cantRamasTxtFd = new JTextField();
-		cantRamasTxtFd.setFont(new Font("Calibri", Font.PLAIN, 14));
-		cantRamasTxtFd.setBounds(420, 108, 50, 20);
-		contentPane.add(cantRamasTxtFd);
-		cantRamasTxtFd.setColumns(10);
-		
-		JLabel lblMtsRgEntre = new JLabel("Cant. Ramas:");
-		lblMtsRgEntre.setFont(new Font("Calibri", Font.PLAIN, 14));
-		lblMtsRgEntre.setBounds(265, 111, 158, 14);
-		contentPane.add(lblMtsRgEntre);
 		
 		JLabel lblRetorno = new JLabel("Retorno:");
 		lblRetorno.setFont(new Font("Calibri", Font.PLAIN, 14));
@@ -171,57 +173,110 @@ public class NivelesAbonadosFrame extends JFrame {
 		btnGenerar.setFont(new Font("Calibri", Font.PLAIN, 14));
 		btnGenerar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int cantCuerposPorRama = Integer.parseInt(cantCuerposPorRamaTxtFd.getText());
-				int cantRamas = Integer.parseInt(cantRamasTxtFd.getText());
 				
-				int cantPisos = Integer.parseInt(cantPisosTextField.getText());
-				int cantDptosPiso = Integer.parseInt(cantDptosPisoTxtField.getText());
-				
-				int cantRg11 = cantCuerposPorRama-cantRamas + cantRamas-1;
-									
-				String [] dptosCols = {"", "Dpto", "Cumplido"};
-				
-				Object [][] dptos = new Object[cantPisos*cantDptosPiso][3];
-				
-				String [] cableCols = {"", "Cable", "Metros"};
-				
-				Object [][] cables = new Object[cantCuerposPorRama*cantRamas-1][3];
-				
-				
-				
-				
-				for (int i = 0; i < dptos.length; i++) {
-					System.out.println(i);
-					dptos[i][0] = new Integer(i+1);
-					dptos[i][2] = new Boolean(false);
+				if(areFieldsEmpty())
+					JOptionPane.showMessageDialog(null, "¡No puede haber campos vacíos!", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				else {
+					int cantPisos = Integer.parseInt(cantPisosTextField.getText());
+					int cantDptosPiso = Integer.parseInt(cantDptosPisoTxtField.getText());
 					
+					int cantBajadas = Integer.parseInt(cantBajadasTxtFd.getText());
+						
+					Object [][] dptos = new Object[cantPisos*cantDptosPiso][4];
+					
+					//String [] cableCols = {"", "Cable", "Metros"};
+					
+					JComboBox<Integer> comboBajadas = new JComboBox<Integer>();
+					comboBajadas.setFont(new Font("Calibri", Font.PLAIN, 14));
+					for (int x = 0; x < cantBajadas; x++) {
+						comboBajadas.addItem(x+1);
+					}
+					
+					
+					int cont = 0;
+					for (int i = 0; i < cantPisos; i++) {
+						for (int f = 0; f < cantDptosPiso; f++) {
+							dptos[cont][0] = new Integer(cont+1);
+							
+							if(i==0)
+								dptos[cont][1] = new String("P PB D" + (f+1));
+							else
+								dptos[cont][1] = new String("P " + i + " D" + (f+1));
+							
+							dptos[cont][2] = new Boolean(false);
+							dptos[cont][3] = new Integer(1);
+							cont++;
+						}
+					}
+					
+					tableModel utm1 = new tableModel(dptos);
+					
+					dptosTable = new JTable(utm1);
+					dptosTable.setFont(new Font("Calibri", Font.PLAIN, 14));
+					dptosTable.getColumnModel().getColumn(0).setMaxWidth(25);
+					dptosTable.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(comboBajadas));
+					//dptosTable.getColumn("").setMaxWidth(25);
+					//dptosTable.setCellSelectionEnabled(true);
+					//dptosTable.setColumnSelectionAllowed(true);
+					//dptosTable.setBounds(10, 180, 250, 100);
+					contentPane.add(dptosTable);
+					
+						
+					JScrollPane scrollPane1 = new JScrollPane(dptosTable);
+				    scrollPane1.setBounds(10, 200, 250, 100);
+				    contentPane.add(scrollPane1);
+				    
+				    JButton btnCalcular = new JButton("Calcular");
+				    btnCalcular.setFont(new Font("Calibri", Font.PLAIN, 14));
+				    btnCalcular.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+						
+						}});
+				    btnCalcular.setBounds(280, 200, 150, 50);
+				    contentPane.add(btnCalcular);
+				    
+				    /*    
+				    JScrollPane scrollPane2 = new JScrollPane(cables11Table);
+				    
+				    scrollPane2.setBounds(280,150, 250, 100);
+				    contentPane.add(scrollPane2);
+				    */
+					contentPane.repaint();
 				}
-				
-				dataTable = new JTable(dptos, dptosCols);
-				dataTable.setFont(new Font("Calibri", Font.PLAIN, 14));
-				dataTable.getColumn("").setMaxWidth(25);
-				dataTable.setCellSelectionEnabled(true);
-				dataTable.setColumnSelectionAllowed(true);
-				dataTable.setBounds(10, 180, 250, 100);
-				contentPane.add(dataTable);
-				
-				JScrollPane scrollPane = new JScrollPane(dataTable);
-			    scrollPane.setBounds(10, 180, 250, 100);
-			    contentPane.add(scrollPane);
-				contentPane.repaint();
 			}
 		});
-		btnGenerar.setBounds(10, 152, 89, 23);
+		btnGenerar.setBounds(10, 149, 89, 23);
 		contentPane.add(btnGenerar);
 		
 		JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(10, 139, 532, 2);
+		separator_1.setBounds(10, 136, 532, 2);
 		contentPane.add(separator_1);
 		
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setBounds(220, 11, 1, 125);
+		separator.setBounds(219, 11, 2, 120);
 		contentPane.add(separator);
+		
+		JLabel lblMetrosRgEntre = new JLabel("Metros RG11 entre conjuntos:");
+		lblMetrosRgEntre.setFont(new Font("Calibri", Font.PLAIN, 14));
+		lblMetrosRgEntre.setBounds(265, 86, 182, 14);
+		contentPane.add(lblMetrosRgEntre);
+		
+		textField = new JTextField();
+		textField.setBounds(457, 83, 50, 20);
+		contentPane.add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblCantZonasDe = new JLabel("Cant. zonas de bajada:");
+		lblCantZonasDe.setFont(new Font("Calibri", Font.PLAIN, 14));
+		lblCantZonasDe.setBounds(265, 111, 166, 14);
+		contentPane.add(lblCantZonasDe);
+		
+		cantBajadasTxtFd = new JTextField();
+		cantBajadasTxtFd.setBounds(456, 108, 51, 20);
+		contentPane.add(cantBajadasTxtFd);
+		cantBajadasTxtFd.setColumns(10);
 		
 		
 		
